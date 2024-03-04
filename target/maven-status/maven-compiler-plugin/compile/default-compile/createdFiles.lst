@@ -1,0 +1,6 @@
+consoletask\enums\EstadoTareaEnum.class
+consoletask\enums\RolUsuarioEnum.class
+consoletask\utils\Validaciones.class
+consoletask\classes\Usuario.class
+consoletask\classes\Main.class
+consoletask\classes\Tarea.class

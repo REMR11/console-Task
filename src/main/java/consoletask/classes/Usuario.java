@@ -15,7 +15,7 @@ public class Usuario {
     private String nombreCompleto;
     private String userName;
     private int rolUsuario;
-    private List<Tarea> tareasAsignadas;
+    private List<Tarea> tareasAsignadas; //TEMPORAL MIENTRAS NO SE CREAN CLASES NODOS
 
     public Usuario() {
     }
@@ -55,7 +55,7 @@ public class Usuario {
         return tareasAsignadas;
     }
 
-    public void setTareasAsignadas(List<Tarea> tareasAsignadas) {
+    public void setTareasAsignadas(List<Tarea> tareasAsignadas) { //TEMPORAL MIENTRAS NO SE CREAN CLASES NODOS
         this.tareasAsignadas = tareasAsignadas;
     }
     

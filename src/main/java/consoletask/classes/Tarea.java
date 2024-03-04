@@ -4,7 +4,7 @@
  */
 package consoletask.classes;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 /**
  *
@@ -13,15 +13,15 @@ import java.util.Date;
 public class Tarea {
 
     private String nombreTarea;
-    private Date fechaInicio;
-    private Date fechaFin;
+    private LocalDate fechaInicio;
+    private LocalDate fechaFin;
     private int estadoTarea;
     private int porcentajeProgreso;
 
     public Tarea() {
     }
 
-    public Tarea(String nombreTarea, Date fechaInicio, Date fechaFin, int estadoTarea, int porcentajeProgreso) {
+    public Tarea(String nombreTarea, LocalDate fechaInicio, LocalDate fechaFin, int estadoTarea, int porcentajeProgreso) {
         this.nombreTarea = nombreTarea;
         this.fechaInicio = fechaInicio;
         this.fechaFin = fechaFin;
@@ -37,19 +37,19 @@ public class Tarea {
         this.nombreTarea = nombreTarea;
     }
 
-    public Date getFechaInicio() {
+    public LocalDate getFechaInicio() {
         return fechaInicio;
     }
 
-    public void setFechaInicio(Date fechaInicio) {
+    public void setFechaInicio(LocalDate fechaInicio) {
         this.fechaInicio = fechaInicio;
     }
 
-    public Date getFechaFin() {
+    public LocalDate getFechaFin() {
         return fechaFin;
     }
 
-    public void setFechaFin(Date fechaFin) {
+    public void setFechaFin(LocalDate fechaFin) {
         this.fechaFin = fechaFin;
     }
 

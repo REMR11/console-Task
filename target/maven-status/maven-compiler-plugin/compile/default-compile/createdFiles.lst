@@ -1,6 +1,7 @@
-consoletask\enums\EstadoTareaEnum.class
 consoletask\enums\RolUsuarioEnum.class
+consoletask\classes\Tarea.class
+consoletask\utils\LocalDateAdapter.class
+consoletask\enums\EstadoTareaEnum.class
 consoletask\utils\Validaciones.class
 consoletask\classes\Usuario.class
 consoletask\classes\Main.class
-consoletask\classes\Tarea.class

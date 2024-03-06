@@ -155,4 +155,22 @@ public class Validaciones {
         } while (!matcher.matches()); // Repetir hasta que el nombre de usuario sea válido
         return nombreUsuario;
     }
+    
+    /**
+     * Método para obtener una confirmación si se desea hacer una acción o no
+     * Ejemplo: ¿{pregunta} ..... S(si) o N(no)? y dependiendo de la selección devuelve true o false
+     * 
+     * @param pregunta Mensaje que se mostrará para consultarla acción
+     * @return true o false dependiendo de la selección {boolean}
+     */
+    public boolean confirmarAccion(String pregunta) {
+        System.out.println("¿"+pregunta+" S(Si) o N(no)?");
+        String desicion = lector.nextLine().toLowerCase();
+        while (!desicion.equals("s") && !desicion.equals("si") && !desicion.equals("n") && !desicion.equals("no")) {
+            System.out.println("¡Opción icorrecta!---Recuerda S(si) o N(no)");
+            desicion = lector.nextLine().toLowerCase();
+        }
+
+        return desicion.equals("s") || desicion.equals("si");
+    }
 }

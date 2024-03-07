@@ -91,7 +91,7 @@ public class menu {
 
     private void crearTarea(){
         String nombreTarea=validaciones.solicitarString("El nombre de la tarea no puede estar vacio.");
-        LocalDate fechaInicio= validaciones.solicitarFecha("Formato de fecha incorrecto para la fecha de inicio.");
+        LocalDate fechaInicio= LocalDate.now();
         LocalDate fechaFin= validaciones.solicitarFechaMayor("La fecha de fin debe ser posterior a la fecha de inicio.",fechaInicio);
         int EstadoTareaEnum= validaciones.solicitarOpcionMenu("Estado invalido. Debe ser 1(pendiente), 2(En progreso),3(Finalizado)",1,3);
         int porcentajeProgreso= validaciones.solicitarEntero("El porcentaje debe ser un numero entero entre 0 y 100");
@@ -136,7 +136,7 @@ public class menu {
     }
     private void filtrarTareasPorFecha(){
         System.out.println("=== FILTRAR TAREAS POR FECHA ===");
-            LocalDate fecha=validaciones.formatearFecha("Ingrese la fecha para filtrar las tareas (dd/MM/yyyy): ");
+            LocalDate fecha = validaciones.formatearFecha("Ingrese la fecha para filtrar las tareas (dd/MM/yyyy): ");
             System.out.println("Tareas para la feha"+validaciones.formatearFecha(fecha)+":");
             boolean encontrada=false;
             for(Tarea tarea : usuarioActual.getTareasAsignadas()){

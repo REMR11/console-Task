@@ -6,8 +6,32 @@ package consoletask.classes;
 
 /**
  *
- * @author Jesús Esquivel
+ * @author GRECIA
  */
 public class Nodo {
-    
+
+    private Tarea tarea;
+    //puede cambiar la variable
+    private Nodo siguiente;
+
+    public Nodo() {
+        this.tarea = null;
+        this.siguiente = null;
+    }
+
+    public Tarea getTarea() {
+        return tarea;
+    }
+
+    public void setTarea(Tarea tarea) {
+        this.tarea = tarea;
+    }
+
+    public Nodo getSiguiente() {
+        return siguiente;
+    }
+
+    public void setSiguiente(Nodo siguiente) {
+        this.siguiente = siguiente;
+    }
 }

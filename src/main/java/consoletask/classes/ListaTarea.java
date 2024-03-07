@@ -6,8 +6,15 @@ package consoletask.classes;
 
 /**
  *
- * @author Jesús Esquivel
+ * @author GRECIA
  */
 public class ListaTarea {
-    
+
+    private Nodo inicio;
+    private int tamanio;
+
+    public ListaTarea() {
+        inicio = null;
+        tamanio = 0;
+    }
 }

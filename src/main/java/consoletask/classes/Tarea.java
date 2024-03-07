@@ -4,6 +4,7 @@
  */
 package consoletask.classes;
 
+import consoletask.utils.Validaciones;
 import java.time.LocalDate;
 
 /**
@@ -12,6 +13,7 @@ import java.time.LocalDate;
  */
 public class Tarea {
 
+    private int id;
     private String nombreTarea;
     private LocalDate fechaInicio;
     private LocalDate fechaFin;
@@ -21,12 +23,21 @@ public class Tarea {
     public Tarea() {
     }
 
-    public Tarea(String nombreTarea, LocalDate fechaInicio, LocalDate fechaFin, int estadoTarea, int porcentajeProgreso) {
+    public Tarea(int id, String nombreTarea, LocalDate fechaInicio, LocalDate fechaFin, int estadoTarea, int porcentajeProgreso) {
+        this.id = id;
         this.nombreTarea = nombreTarea;
         this.fechaInicio = fechaInicio;
         this.fechaFin = fechaFin;
         this.estadoTarea = estadoTarea;
         this.porcentajeProgreso = porcentajeProgreso;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getNombreTarea() {
@@ -69,4 +80,9 @@ public class Tarea {
         this.porcentajeProgreso = porcentajeProgreso;
     }
 
+    @Override
+    public String toString() {
+        Validaciones validacion = new Validaciones();
+        return "{id: " + id + " nombreTarea= " + nombreTarea + ", fechaInicio= " + validacion.formatearFecha(fechaInicio) + ", fechaFin= " + validacion.formatearFecha(fechaFin) + ", estadoTarea= " + estadoTarea + ", porcentajeProgreso= " + porcentajeProgreso + '}';
+    }
 }

@@ -16,11 +16,11 @@ public class menu {
     private Scanner scanner;
     private Validaciones validaciones;
 
-    public menu(Usuario usuarioActual, Usuario usuario) {
+    public menu(Usuario usuarioActual, Usuario usuarioInverso) {
         this.usuarioActual = usuarioActual;
         this.scanner = new Scanner(System.in);
         this.validaciones = new Validaciones();
-        this.usuarioInverso = usuario;
+        this.usuarioInverso = usuarioInverso;
     }
 
     public void mostrarMenu() {
@@ -123,7 +123,7 @@ public class menu {
             System.out.println(id);
         }
         Tarea nuevaTarea = new Tarea(id, nombreTarea, fechaInicio, fechaFin, EstadoTareaEnum.EN_PROGRESO.getId(), 0);
-        usuarioActual.agregarAlFinal(nuevaTarea);
+        usuarioActual.agregarAlFinal(nuevaTarea, usuarioInverso);
     }
 
     private void modificarTarea() {
@@ -148,18 +148,25 @@ public class menu {
     }
 
     private void eliminarTarea() {
-        
+
         System.out.println("=== Eliminar Tarea ===");
         if (usuarioActual.getTareasAsignadas().getTarea() == null) {
             System.out.println("No hay tareas apara eliminar");
         } else {
-            /*System.out.println("Seleccione la tarea que desea eliminar:");
-            for (int i = 0; i < usuarioActual.getTareasAsignadas().size(); i++) {
-                System.out.println((i + 1) + "." + usuarioActual.getTareasAsignadas().get(i).getNombreTarea());
+            usuarioActual.listar();
+            System.out.println("Seleccione la tarea que desea eliminar (Ingrese el ID) o otro número si desea cancelar:");
+
+            int opcionTarea = validaciones.solicitarEntero("ID no aceptable");
+
+            if (!usuarioActual.buscar(opcionTarea)) {
+                return;
             }
-            int opcionTarea = validaciones.solicitarOpcionMenu("Opcion invalida", 1, usuarioActual.getTareasAsignadas().size()) - 1;
-            Tarea tareaEliminada = usuarioActual.getTareasAsignadas().remove(opcionTarea);
-            System.out.println("Tarea eliminada exitosamente: " + tareaEliminada);*/
+
+            if (validaciones.confirmarAccion("¿Desea eliminar la tarea?") && validaciones.confirmarAccion("¿Esta seguro de eliminar la tarea?")) {
+                usuarioActual.eliminarPorID(opcionTarea);
+            } else {
+                System.out.println("Cancelando...");
+            }
         }
     }
 
@@ -234,7 +241,6 @@ public class menu {
     }
 
     private void mostrarMenuUsuario() {
-        usuarioActual.listar();
         int opcion;
         do {
             System.out.println("=== MENU DE USUARIO ===");
@@ -255,7 +261,6 @@ public class menu {
     }
 
     private void mostrarMenuGestionTareasUsuario() {
-        usuarioActual.listar();
         int opcion;
         do {
             System.out.println("=== GESTION DE TAREAS ===");

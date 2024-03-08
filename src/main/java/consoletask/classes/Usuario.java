@@ -150,7 +150,7 @@ public class Usuario {
      *
      * @param tarea Tarea a agregar
      */
-    public void agregarAlFinal(Tarea tarea) {
+    public void agregarAlFinal(Tarea tarea, Usuario usuarioInverso) {
         // Define un nuevo nodo.
         Nodo nuevo = new Nodo();
         // Agrega al valor al nodo.
@@ -190,6 +190,50 @@ public class Usuario {
             System.out.println("¡Tarea creada exitosamente!");
             this.listar();
             this.tamanio++;
+            this.copiarLista(usuarioInverso);
+        }
+    }
+
+    /**
+     * Método para copiar al otro Usuario la lista de tareas del otro
+     *
+     * @param usuario El usuario al cual se le va copiar la lista de tra
+     */
+    public void copiarLista(Usuario usuarioInverso) {
+        usuarioInverso.setTareasAsignadas(this.tareasAsignadas);
+    }
+
+    /**
+     * Elimina una tarea dependiendo del ID de referencia que se pase
+     *
+     * @param referencia ID de la tarea a pasar como referenciaS
+     */
+    public void eliminarPorID(int referencia) {
+        // Consulta si el valor de referencia existe en la lista.
+        if (buscar(referencia)) {
+            // Consulta si el nodo a eliminar es el pirmero
+            if (this.tareasAsignadas.getTarea().getId() == referencia) {
+                // El primer nodo apunta al siguiente.
+                this.tareasAsignadas = this.tareasAsignadas.getSiguiente();
+            } else {
+                // Crea ua copia de la lista.
+                Nodo aux = this.tareasAsignadas;
+                // Recorre la lista hasta llegar al nodo anterior 
+                // al de referencia.
+                while (aux.getSiguiente().getTarea().getId() != referencia) {
+                    aux = aux.getSiguiente();
+                }
+                // Guarda el nodo siguiente del nodo a eliminar.
+                Nodo siguiente = aux.getSiguiente().getSiguiente();
+                // Enlaza el nodo anterior al de eliminar con el 
+                // sguiente despues de el.
+                aux.setSiguiente(siguiente);
+            }
+            System.out.println("¡La tarea se elimino con exito!");
+            // Disminuye el contador de tamaño de la lista.
+            tamanio--;
+        }else{
+            System.out.println("No existe la tarea con el id: "+referencia);
         }
     }
 }

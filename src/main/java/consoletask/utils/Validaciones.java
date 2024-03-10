@@ -127,6 +127,17 @@ public class Validaciones {
         return fecha;
 
     }
+    
+    /**
+     * Método que valida que la fecha de referencia esté entre las dos parametrizadas
+     * @param fechaRef Fecha de referencia  
+     * @param fechaIni Fecha de inicio de filtro
+     * @param fechaFin  Fecha de fin de filtro
+     * @return Retorna si la fechaRef está dentro o fuera del rango determinado
+     */
+    public boolean filtrarPorFechas(LocalDate fechaRef, LocalDate fechaIni, LocalDate fechaFin) {
+        return (fechaRef.equals(fechaIni) || fechaRef.equals(fechaFin)) || (fechaRef.isAfter(fechaIni) && fechaRef.isBefore(fechaFin));
+    }
 
     /**
      * MÃ©todo para validar y solicitar un fecha mayor que la fecha de

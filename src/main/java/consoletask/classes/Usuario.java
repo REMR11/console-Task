@@ -4,8 +4,12 @@
  */
 package consoletask.classes;
 
+import consoletask.enums.EstadoTareaEnum;
+import consoletask.utils.Validaciones;
 import java.time.LocalDate;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  *
@@ -72,11 +76,16 @@ public class Usuario {
      * @param referencia ID de la tarea a buscar
      * @return true o false en caso que encuentre el valor o no lo encuentre;
      */
-    public boolean buscar(int referencia) {
+    public Map<String, Object> buscar(int referencia) {
+
+        Map<String, Object> returnMap = new HashMap<>();
+
         // Crea una copia de la lista.
         Nodo aux = this.tareasAsignadas;
         // Bandera para indicar si el valor existe.
         boolean encontrado = false;
+        returnMap.put("encontrado", encontrado);
+        returnMap.put("nodo", aux);
         // Recorre la lista hasta encontrar el elemento o hasta 
         // llegar al final de la lista.
         while (aux != null && encontrado != true) {
@@ -84,13 +93,15 @@ public class Usuario {
             if (referencia == aux.getTarea().getId()) {
                 // Canbia el valor de la bandera.
                 encontrado = true;
+                returnMap.put("encontrado", encontrado);
+                returnMap.put("nodo", aux);
             } else {
                 // Avansa al siguiente. nodo.
                 aux = aux.getSiguiente();
             }
         }
         // Retorna el resultado de la bandera.
-        return encontrado;
+        return returnMap;
     }
 
     /**
@@ -150,6 +161,7 @@ public class Usuario {
      * MÃ©todo para agregar una Tarea al final de la lista
      *
      * @param tarea Tarea a agregar
+     * @param usuarioInverso Usuario al que se le asignará la tarea
      */
     public void agregarAlFinal(Tarea tarea, Usuario usuarioInverso) {
         // Define un nuevo nodo.
@@ -167,7 +179,7 @@ public class Usuario {
             //y agrega el nuevo.
         } else {
             //Consultamos si ya existe la tarea a ingresar
-            if (this.buscar(tarea.getId())) {
+            if ((boolean) this.buscar(tarea.getId()).get("encontrado")) {
                 System.out.println("Â¡El id de tarea ya existe, no se puede agregar!");
                 return;
             };
@@ -191,13 +203,14 @@ public class Usuario {
             System.out.println("Â¡Tarea creada exitosamente!");
             this.listar();
             this.tamanio++;
+            this.copiarLista(usuarioInverso);
         }
     }
 
     /**
      * MÃ©todo para copiar al otro Usuario la lista de tareas del otro
      *
-     * @param usuario El usuario al cual se le va copiar la lista de tra
+     * @param usuarioInverso El usuario al cual se le va copiar la lista de tra
      */
     public void copiarLista(Usuario usuarioInverso) {
         usuarioInverso.setTareasAsignadas(this.tareasAsignadas);
@@ -210,7 +223,7 @@ public class Usuario {
      */
     public void eliminarPorID(int referencia) {
         // Consulta si el valor de referencia existe en la lista.
-        if (buscar(referencia)) {
+        if ((boolean) buscar(referencia).get("encontrado")) {
             // Consulta si el nodo a eliminar es el pirmero
             if (this.tareasAsignadas.getTarea().getId() == referencia) {
                 // El primer nodo apunta al siguiente.
@@ -237,16 +250,39 @@ public class Usuario {
         }
     }
 
+    public void modificarFechaFinTarea(Nodo tarea, LocalDate nuevaFecha) {
+        
+        tarea.getTarea().setFechaFin(nuevaFecha);
+       
+    }
+
+    public void modificarPorcentajeTarea(Nodo tarea, int porcentaje) {
+        tarea.getTarea().setPorcentajeProgreso(porcentaje);
+        if (porcentaje == 100) {
+            tarea.getTarea().setEstadoTarea(EstadoTareaEnum.FINALIZADA.getId());
+        }
+    }
+
+    public void modificarEstadoTarea(Nodo tarea, int estado) {
+        tarea.getTarea().setEstadoTarea(estado);
+        if (estado == 3) {
+            tarea.getTarea().setPorcentajeProgreso(100);
+        }
+    }
+
     /**
      * Método para filtrar tareas por fecha de fin
+     *
      * @param fecha1 Primera fecha del rango a filtrar
      * @param fecha2 Segunda fecha del rango a filtrar
      * @param cabezaTareas Nodo cabeza de la lista original de tareas
-     * @return Una copia de la lista de tareas, vacía o con los resultados obtenidos
+     * @return Una copia de la lista de tareas, vacía o con los resultados
+     * obtenidos
      */
     public Nodo filtrarPorFecha(LocalDate fecha1, LocalDate fecha2, Nodo cabezaTareas) {
 
         Nodo copiaCabeza = new Nodo();
+        Validaciones validaciones = new Validaciones();
 
         // Recorrido de lista de tareas
         while (cabezaTareas != null) {
@@ -255,7 +291,7 @@ public class Usuario {
             LocalDate fechaFin = cabezaTareas.getTarea().getFechaFin();
 
             // Comparación de fechaFin de tarea con fechas ingresadas para filtro
-            if (fechaFin.isAfter(fecha1) && fechaFin.isBefore(fecha2)) {
+            if (validaciones.filtrarPorFechas(fechaFin, fecha1, fecha2)) {
 
                 Tarea tareaEncontrada = cabezaTareas.getTarea();
                 // Duplicación de lista
@@ -285,9 +321,11 @@ public class Usuario {
 
     /**
      * Método para filtrar tareas por estado
+     *
      * @param cabezaTareas Nodo cabeza de la lista original de tareas
      * @param estado ID de Estado por cual se desea filtrar
-     * @return Una copia de la lista de tareas, vacía o con los resultados obtenidos
+     * @return Una copia de la lista de tareas, vacía o con los resultados
+     * obtenidos
      */
     public Nodo filtrarPorEstado(Nodo cabezaTareas, int estado) {
 
@@ -324,6 +362,7 @@ public class Usuario {
 
     /**
      * Método que imprime la lista filtrada de tareas
+     *
      * @param cabezaFiltro Nodo cabeza de la lista filtrada
      */
     public void listarConFiltros(Nodo cabezaFiltro) {

@@ -111,22 +111,23 @@ public class menu {
             id = usuarioActual.getTamanio() + 1;
             System.out.println(id);
         }
-        Tarea nuevaTarea = new Tarea(id, nombreTarea, fechaInicio, fechaFin, EstadoTareaEnum.EN_PROGRESO.getId(), 0);
+        Tarea nuevaTarea = new Tarea(id, nombreTarea, fechaInicio, fechaFin, EstadoTareaEnum.PENDIENTE.getId(), 0);
         usuarioActual.agregarAlFinal(nuevaTarea, usuarioInverso);
     }
 
     private void eliminarTarea() {
 
-        System.out.println("=== Eliminar Tarea ===");
+        System.out.println("=== ELIMINAR TAREA ===");
         if (usuarioActual.getTareasAsignadas().getTarea() == null) {
             System.out.println("No hay tareas apara eliminar");
         } else {
             usuarioActual.listar();
-            System.out.println("Seleccione la tarea que desea eliminar (Ingrese el ID) o otro nÃºmero si desea cancelar:");
+            System.out.println("Seleccione la tarea que desea eliminar (Ingrese el ID), u otro nÃºmero si desea cancelar:");
 
-            int opcionTarea = validaciones.solicitarEntero("ID no aceptable");
+            int opcionTarea = validaciones.solicitarEntero("Ingrese un ID válido");
 
-            if (!usuarioActual.buscar(opcionTarea)) {
+            if (!(boolean) usuarioActual.buscar(opcionTarea).get("encontrado")) {
+                System.out.println("No se ha encontrado tarea con ID " + opcionTarea);
                 return;
             }
 
@@ -141,19 +142,21 @@ public class menu {
     /* MÉTODOS PARA USUARIO */
     private void mostrarMenuUsuario() {
         int opcion;
-        System.out.println("=== MENU DE USUARIO ===");
-        System.out.println("1. Gestionar tareas");
-        System.out.println("2. Cerrar sesion");
-        System.out.print("Ingrese su opcion: ");
-        opcion = validaciones.solicitarOpcionMenu("Opcion invalida", 1, 2);
-        switch (opcion) {
-            case 1:
-                mostrarMenuGestionTareasUsuario();
-                break;
-            case 2:
-                System.out.println("Cerrando sesion...");
-                break;
-        }
+        do {
+            System.out.println("=== MENU DE USUARIO ===");
+            System.out.println("1. Gestionar tareas");
+            System.out.println("2. Cerrar sesion");
+            System.out.print("Ingrese su opcion: ");
+            opcion = validaciones.solicitarOpcionMenu("Opcion invalida", 1, 2);
+            switch (opcion) {
+                case 1:
+                    mostrarMenuGestionTareasUsuario();
+                    break;
+                case 2:
+                    System.out.println("Cerrando sesion...");
+                    break;
+            }
+        } while (opcion != 2);
     }
 
     private void mostrarMenuGestionTareasUsuario() {
@@ -185,24 +188,77 @@ public class menu {
 
     /* MÉTODOS COMPARTIDOS */
     private void modificarTarea() {
-        /*
+
         System.out.println("=== MODIFICAR TAREA ===");
-        if (usuarioActual.getTareasAsignadas() == null) {
-            System.out.println("No hay tareas asignadas para modificar.");
+        if (usuarioActual.getTareasAsignadas().getTarea() == null) {
+            System.out.println("No hay tareas para modificar.");
+            return;
+        }
 
+        usuarioActual.listar();
+        System.out.println("Seleccione la tarea que desea modificar (Ingrese el ID), u otro número si desea cancelar: ");
+
+        int idTarea = validaciones.solicitarEntero("Ingrese un ID válido.");
+
+        boolean tareaEncontradaBool = (boolean) usuarioActual.buscar(idTarea).get("encontrado");
+
+        if (!tareaEncontradaBool) {
+            System.out.println("No se ha encontrado tarea con ID " + idTarea);
+            return;
+        }
+
+        Nodo tareaEncontradaNodo = (Nodo) usuarioActual.buscar(idTarea).get("nodo");
+
+        if (usuarioActual.getRolUsuario() == RolUsuarioEnum.ADMIN.getId()) {
+            menuAdminModificarTarea(tareaEncontradaNodo);
         } else {
-            System.out.println("Seleccione la tarea que desea modificar:");
-            for (int i = 0; i < usuarioActual.getTareasAsignadas().size(); i++) {
-                System.out.println((i + 1) + "." + usuarioActual.getTareasAsignadas().get(i).getNombreTarea());
-            }
-            int opcionTarea = validaciones.solicitarOpcionMenu("Opcion invalida", 1, usuarioActual.getTareasAsignadas().size()) - 1;
-            Tarea tareaSeleccionada = usuarioActual.getTareasAsignadas().get(opcionTarea);
-            System.out.println("Ingrese el nuevo nombre de la tarea: ");
-            String nuevoNombre = scanner.nextLine().trim();
-            tareaSeleccionada.setNombreTarea(nuevoNombre);
-            System.out.println("Tarea modificada exitosamente: " + tareaSeleccionada);
+            menuUsuarioModificarTarea(tareaEncontradaNodo);
+        }
+    }
 
-        }*/
+    private void menuUsuarioModificarTarea(Nodo tarea) {
+
+        System.out.println("1. Estado\n2.Porcentaje de progreso");
+        System.out.println("Ingrese el dato que desea modificar de la tarea: ");
+
+        int opcion = validaciones.solicitarOpcionMenu("Ingrese una opción válida", 1, 2);
+        switch (opcion) {
+            case 1:
+                System.out.println("Ingrese el estado al cual desea modificar la tarea:");
+                int estado = validaciones.solicitarOpcionMenu("Estado inválido", 1, 3);
+                usuarioActual.modificarEstadoTarea(tarea, estado);
+                break;
+            case 2:
+                System.out.println("Ingrese el porcentaje de progreso al cual desea modificar la tarea:");
+                int porcentaje = validaciones.solicitarOpcionMenu("Porcentaje de progreso inválido", 0, 100);
+                usuarioActual.modificarPorcentajeTarea(tarea, porcentaje);
+                break;
+        }
+
+    }
+
+    private void menuAdminModificarTarea(Nodo tarea) {
+
+        System.out.println("1. Fecha de finalización\n2. Estado\n3. Porcentaje de progreso");
+        int opcion = validaciones.solicitarOpcionMenu("Ingrese una opción válida", 1, 3);
+        switch (opcion) {
+            case 1:
+                System.out.println("Ingrese la fecha de finalización la cual desea modificar la tarea:");
+                LocalDate fecha = validaciones.solicitarFechaMayor("Hubo un error al obtener la fecha.", LocalDate.now());
+                usuarioActual.modificarFechaFinTarea(tarea, fecha);
+                break;
+            case 2:
+                System.out.println("Ingrese el estado al cual desea modificar la tarea:");
+                int estado = validaciones.solicitarOpcionMenu("Estado inválido", 1, 3);
+                usuarioActual.modificarEstadoTarea(tarea, estado);
+                break;
+            case 3:
+                System.out.println("Ingrese el porcentaje de progreso al cual desea modificar la tarea:");
+                int porcentaje = validaciones.solicitarOpcionMenu("Porcentaje de progreso inválido", 0, 100);
+                usuarioActual.modificarPorcentajeTarea(tarea, porcentaje);
+                break;
+        }
+
     }
 
     private void seleccionarTarea() {

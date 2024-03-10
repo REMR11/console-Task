@@ -8,7 +8,6 @@ import consoletask.enums.EstadoTareaEnum;
 import consoletask.utils.Validaciones;
 import java.time.LocalDate;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -74,16 +73,19 @@ public class Usuario {
      * MÃ©todo para buscar una tarea por id de referencia
      *
      * @param referencia ID de la tarea a buscar
-     * @return true o false en caso que encuentre el valor o no lo encuentre;
+     * @return Un mapa clave-valor String-object para devolver tanto la bandera
+     * de éxito, así como el nodo encontrado
      */
     public Map<String, Object> buscar(int referencia) {
 
+        // Inicialización del mapa de retorno
         Map<String, Object> returnMap = new HashMap<>();
 
         // Crea una copia de la lista.
         Nodo aux = this.tareasAsignadas;
         // Bandera para indicar si el valor existe.
         boolean encontrado = false;
+        // Establece llaves por defecto al mapa
         returnMap.put("encontrado", encontrado);
         returnMap.put("nodo", aux);
         // Recorre la lista hasta encontrar el elemento o hasta 
@@ -93,6 +95,7 @@ public class Usuario {
             if (referencia == aux.getTarea().getId()) {
                 // Canbia el valor de la bandera.
                 encontrado = true;
+                // Modifica las llaves del mapa
                 returnMap.put("encontrado", encontrado);
                 returnMap.put("nodo", aux);
             } else {
@@ -151,7 +154,6 @@ public class Usuario {
                 // Incrementa el contador de la posiÃ³n.
                 i++;
             }
-            System.out.println("null");
         } else {
             System.out.println("No hay tareas creadas");
         }
@@ -250,22 +252,42 @@ public class Usuario {
         }
     }
 
+    /**
+     * Modifica la fecha de fin de la tarea obtenida
+     *
+     * @param tarea Tarea obtenida
+     * @param nuevaFecha Nueva fecha para modificar
+     */
     public void modificarFechaFinTarea(Nodo tarea, LocalDate nuevaFecha) {
-        
+
         tarea.getTarea().setFechaFin(nuevaFecha);
-       
+
     }
 
+    /**
+     * Modifica el porcentaje de la tarea obtenida
+     *
+     * @param tarea Tarea obtenida
+     * @param porcentaje Nuevo porcentaje para modificar
+     */
     public void modificarPorcentajeTarea(Nodo tarea, int porcentaje) {
         tarea.getTarea().setPorcentajeProgreso(porcentaje);
+        // Valida si se ingresó porcentaje 100, para también establecer la tarea como finalizada
         if (porcentaje == 100) {
             tarea.getTarea().setEstadoTarea(EstadoTareaEnum.FINALIZADA.getId());
         }
     }
 
+    /**
+     * Modifica el estado de la tarea obtenida
+     *
+     * @param tarea Tarea obtenida
+     * @param estado Nuevo estado para modificar
+     */
     public void modificarEstadoTarea(Nodo tarea, int estado) {
         tarea.getTarea().setEstadoTarea(estado);
-        if (estado == 3) {
+        // Valida si el estado que se ingresó es FINALIZADA, para también establecer el porcentaje al 100
+        if (estado == EstadoTareaEnum.FINALIZADA.getId()) {
             tarea.getTarea().setPorcentajeProgreso(100);
         }
     }
@@ -374,7 +396,7 @@ public class Usuario {
             return;
         }
 
-        System.out.println("=== TAREAS ENCONTRADAS === ");
+        System.out.println("\n=== TAREAS ENCONTRADAS === ");
         while (aux != null) {
             System.out.print(aux.getTarea().toString() + "\n");
             aux = aux.getSiguiente();

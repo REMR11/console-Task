@@ -16,9 +16,9 @@ public class Validaciones {
     private static Scanner lector = new Scanner(System.in);
 
     /**
-     * Método para validar y hacer la solicitud de la opción de cualquier menú
-     * dentro de la aplicación, devuelve un ENTERO que representa el número de
-     * opción que se ha escogido
+     * Método para validar y hacer la solicitud de la opción de cualquier
+     * menú dentro de la aplicación, devuelve un ENTERO que representa el
+     * número de opción que se ha escogido
      *
      * @param advertencia Representa el mensaje que se debe mostrar al usuario
      * en caso el usuario ingrese una opción erronea
@@ -28,7 +28,7 @@ public class Validaciones {
      * usuario
      * @return Número entero que representa la selección del menú
      */
-    public  int solicitarOpcionMenu(String advertencia, int rMenor, int rMayor) {
+    public int solicitarOpcionMenu(String advertencia, int rMenor, int rMayor) {
         //Creamos un bucle para consultar en caso se equivoque, mostrando un mensaje si se equivoco
         while (true) {
             //Validamos que sea un entero
@@ -69,8 +69,8 @@ public class Validaciones {
     }
 
     /**
-     * Método para validar y solicitar el ingrese de un STRING evitando espacios
-     * vacios
+     * Método para validar y solicitar el ingrese de un STRING evitando
+     * espacios vacios
      *
      * @param advertencia Representa el mensaje que se debe mostrar al usuario
      * en caso el usuario ingrese un dato incorrecto
@@ -103,8 +103,34 @@ public class Validaciones {
     }
 
     /**
-     * Método para validar y solicitar un fecha mayor que la fecha de referencia
-     * (parametro).
+     * M�todo que formate la primera fecha del filtro de tareas
+     * @return La fecha formateada a LocalDate
+     */
+    public LocalDate solicitarFecha() {
+
+        LocalDate fecha = null;
+        DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/yyyy");//Crea un formato de fecha
+        boolean formatoValido = true;
+        do {
+            try {
+                lector.nextLine();
+                String fechaString = lector.nextLine();
+                fecha = LocalDate.parse(fechaString, formato);
+                formatoValido = true;
+            } catch (Exception ex) {
+                System.out.println("Debe ingresar la fecha en formato v�lido (dd/MM/yyyy)");
+                formatoValido = false;
+            }
+
+        } while (!formatoValido);
+
+        return fecha;
+
+    }
+
+    /**
+     * Método para validar y solicitar un fecha mayor que la fecha de
+     * referencia (parametro).
      *
      * @param advertencia Representa el mensaje que se debe mostrar al usuario
      * en caso el usuario ingrese una fecha en formato no admisible
@@ -155,16 +181,17 @@ public class Validaciones {
         } while (!matcher.matches()); // Repetir hasta que el nombre de usuario sea válido
         return nombreUsuario;
     }
-    
+
     /**
      * Método para obtener una confirmación si se desea hacer una acción o no
-     * Ejemplo: ¿{pregunta} ..... S(si) o N(no)? y dependiendo de la selección devuelve true o false
-     * 
+     * Ejemplo: ¿{pregunta} ..... S(si) o N(no)? y dependiendo de la selección
+     * devuelve true o false
+     *
      * @param pregunta Mensaje que se mostrará para consultarla acción
      * @return true o false dependiendo de la selección {boolean}
      */
     public boolean confirmarAccion(String pregunta) {
-        System.out.println("¿"+pregunta+" S(Si) o N(no)?");
+        System.out.println("¿" + pregunta + " S(Si) o N(no)?");
         String desicion = lector.nextLine().toLowerCase();
         while (!desicion.equals("s") && !desicion.equals("si") && !desicion.equals("n") && !desicion.equals("no")) {
             System.out.println("¡Opción icorrecta!---Recuerda S(si) o N(no)");

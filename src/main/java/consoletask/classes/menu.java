@@ -1,12 +1,10 @@
 package consoletask.classes;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.Scanner;
 
 import consoletask.enums.EstadoTareaEnum;
 import consoletask.enums.RolUsuarioEnum;
-import consoletask.utils.LocalDateAdapter;
 import consoletask.utils.Validaciones;
 
 public class menu {
@@ -25,22 +23,23 @@ public class menu {
 
     public void mostrarMenu() {
         if (usuarioActual.getRolUsuario() == RolUsuarioEnum.ADMIN.getId()) {
-            usuarioActual.listar();
+//            usuarioActual.listar();
             mostrarMenuAdmin();
         } else {
-            usuarioActual.listar();
+//            usuarioActual.listar();
             mostrarMenuUsuario();
         }
     }
 
+    /* MÉTODOS PARA ADMIN */
     private void mostrarMenuAdmin() {
 
         int opcion;
         do {
             System.out.println("===MENU DE ADMINISTRADOR ===");
-            System.out.println("1.Ver tareas");
-            System.out.println("2.Crear tarea");
-            System.out.println("3.Salir.");
+            System.out.println("1. Gestionar tareas");
+            System.out.println("2. Crear tarea");
+            System.out.println("3. Salir.");
             System.out.print("Ingrese su opcion: ");
             opcion = validaciones.solicitarOpcionMenu("Opcion invalida", 1, 3);
             switch (opcion) {
@@ -65,11 +64,10 @@ public class menu {
         System.out.println("=== GESTION DE TAREAS ===");
         System.out.println("1. Modificar tarea");
         System.out.println("2. Eliminar tarea");
-        System.out.println("3. Filtrar tareas por fecha.");
-        System.out.println("4. Filtrar tareas por estado.");
-        System.out.println("5. Filtrar tareas por usuario asignado");
-        System.out.println("6. Volver al menu principal");
-        opcion = validaciones.solicitarOpcionMenu("Opcion invalida", 1, 6);
+        System.out.println("3. Filtrar tareas.");
+        System.out.println("4. Volver al menu principal");
+        System.out.println("Ingrese su opción: ");
+        opcion = validaciones.solicitarOpcionMenu("Opcion invalida", 1, 4);
 
         switch (opcion) {
             case 1:
@@ -79,19 +77,10 @@ public class menu {
             case 2:
                 eliminarTarea();
                 break;
-
             case 3:
-                filtrarTareasPorFecha();
+                filtrarTareas();
                 break;
-
             case 4:
-                filtrarTareasPorEstado();
-                break;
-
-            case 5:
-                filtrarTareasPorUsuarioAsignado();
-                break;
-            case 6:
                 mostrarMenu();
                 break;
         }
@@ -126,27 +115,6 @@ public class menu {
         usuarioActual.agregarAlFinal(nuevaTarea, usuarioInverso);
     }
 
-    private void modificarTarea() {
-        /*
-        System.out.println("=== MODIFICAR TAREA ===");
-        if (usuarioActual.getTareasAsignadas() == null) {
-            System.out.println("No hay tareas asignadas para modificar.");
-
-        } else {
-            System.out.println("Seleccione la tarea que desea modificar:");
-            for (int i = 0; i < usuarioActual.getTareasAsignadas().size(); i++) {
-                System.out.println((i + 1) + "." + usuarioActual.getTareasAsignadas().get(i).getNombreTarea());
-            }
-            int opcionTarea = validaciones.solicitarOpcionMenu("Opcion invalida", 1, usuarioActual.getTareasAsignadas().size()) - 1;
-            Tarea tareaSeleccionada = usuarioActual.getTareasAsignadas().get(opcionTarea);
-            System.out.println("Ingrese el nuevo nombre de la tarea: ");
-            String nuevoNombre = scanner.nextLine().trim();
-            tareaSeleccionada.setNombreTarea(nuevoNombre);
-            System.out.println("Tarea modificada exitosamente: " + tareaSeleccionada);
-
-        }*/
-    }
-
     private void eliminarTarea() {
 
         System.out.println("=== Eliminar Tarea ===");
@@ -170,119 +138,71 @@ public class menu {
         }
     }
 
-    private void filtrarTareasPorFecha() {
-        /*
-        System.out.println("=== FILTRAR TAREAS POR FECHA ===");
-        LocalDate fecha = validaciones.formatearFecha("Ingrese la fecha para filtrar las tareas (dd/MM/yyyy): ");
-        System.out.println("Tareas para la feha" + validaciones.formatearFecha(fecha) + ":");
-        boolean encontrada = false;
-        for (Tarea tarea : usuarioActual.getTareasAsignadas()) {
-            if (tarea.getFechaInicio().equals(fecha) || tarea.getFechaFin().equals(fecha)) {
-                System.out.println(tarea);
-                encontrada = true;
-            }
-        }
-        if (!encontrada) {
-            System.out.println("No se encontraron tareas para la fecha seleccionada.");
-        }
-         */
-    }
-
-    private void filtrarTareasPorEstado() {
-        /*
-        System.out.println("=== FILTRAR TAREAS POR ESTADO===");
-        int estado = validaciones.solicitarOpcionMenu("Ingrese el estado de la tarea(1. pendiente, 2.En progreso , 3.Finalizada)", 1, 3);
-        System.out.println("Tareas con estado" + EstadoTareaEnum.values()[estado - 1] + ":");
-        boolean encontrada = false;
-        for (Tarea tarea : usuarioActual.getTareasAsignadas()) {
-            if (tarea.getEstadoTarea() == estado) {
-                System.out.println(tarea);
-                encontrada = true;
-            }
-        }
-        if (!encontrada) {
-            System.out.println("No se encontraron tareas con el estado seleccionado. ");
-            
-        }*/
-    }
-
-    private void filtrarTareasPorUsuarioAsignado() {
-        /*
-        System.out.println("=== FILTRAR TAREAS POR USUARIO ASIGNADO ===");
-        if (usuarioActual.getTareasAsignadas().isEmpty()) {
-            System.out.println("No hay tareas asignadas.");
-            return;
-        }
-        
-        System.out.println("Lista de usuarios:");
-        for (int i = 0; i < usuarioActual.getTareasAsignadas().size(); i++) {
-            System.out.println((i + 1) + ". " + usuarioActual.getTareasAsignadas().get(i).getUserName());
-        }
-        
-        int opcion = validaciones.solicitarOpcionMenu("Seleccione un usuario (ingrese 0 si desea cancelar): ", 0, usuarioActual.getTareasAsignadas().size());
-        if (opcion == 0) {
-            System.out.println("OperaciÃ³n cancelada.");
-            return;
-        }
-        
-        String usuarioSeleccionado = usuarioActual.getTareasAsignadas().get(opcion - 1).getUserName();
-        System.out.println("Tareas asignadas a " + usuarioSeleccionado + ":");
-        boolean encontrada = false;
-        for (Tarea tarea : usuarioActual.getTareasAsignadas()) {
-            if (tarea.getUserName().equals(usuarioSeleccionado)) {
-                System.out.println(tarea);
-                encontrada = true;
-            }
-        }
-        
-        if (!encontrada) {
-            System.out.println("No se encontraron tareas asignadas a " + usuarioSeleccionado + ".");
-        }*/
-    }
-
+    /* MÉTODOS PARA USUARIO */
     private void mostrarMenuUsuario() {
         int opcion;
-        do {
-            System.out.println("=== MENU DE USUARIO ===");
-            System.out.println("1. Ver tareas");
-            System.out.println("2. Cerrar sesion");
-            System.out.print("Ingrese su opcion: ");
-            opcion = validaciones.solicitarOpcionMenu("Opcion invalida", 1, 2);
-            switch (opcion) {
-                case 1:
-                    mostrarMenuGestionTareasUsuario();
-                    break;
-                case 2:
-                    System.out.println("Cerrando sesion...");
-                    break;
-
-            }
-        } while (opcion != 2);
+        System.out.println("=== MENU DE USUARIO ===");
+        System.out.println("1. Gestionar tareas");
+        System.out.println("2. Cerrar sesion");
+        System.out.print("Ingrese su opcion: ");
+        opcion = validaciones.solicitarOpcionMenu("Opcion invalida", 1, 2);
+        switch (opcion) {
+            case 1:
+                mostrarMenuGestionTareasUsuario();
+                break;
+            case 2:
+                System.out.println("Cerrando sesion...");
+                break;
+        }
     }
 
     private void mostrarMenuGestionTareasUsuario() {
         int opcion;
         do {
             System.out.println("=== GESTION DE TAREAS ===");
-            System.out.println("1. Seleccionar tarea");
-            System.out.println("2. Modificar tarea");
-            System.out.println("3. Filtrar tareas");
-            System.out.println("4. Volver al menu principal");
+//            System.out.println("1. Seleccionar tarea");
+            System.out.println("1. Modificar tarea");
+            System.out.println("2. Filtrar tareas");
+            System.out.println("3. Volver al menu principal");
             System.out.print("Ingrese su opcion: ");
-            opcion = validaciones.solicitarOpcionMenu("Opcion invalida", 1, 4);
+            opcion = validaciones.solicitarOpcionMenu("Opcion invalida", 1, 3);
             switch (opcion) {
+//                case 1:
+//                    seleccionarTarea();
+//                    break;
                 case 1:
-                    seleccionarTarea();
-                    break;
-                case 2:
                     modificarTarea();
                     break;
-                case 3:
-                    filtrarTareasUsuario();
+                case 2:
+                    filtrarTareas();
                     break;
+                case 3:
+                    mostrarMenu();
             }
 
         } while (opcion != 4);
+    }
+
+    /* MÉTODOS COMPARTIDOS */
+    private void modificarTarea() {
+        /*
+        System.out.println("=== MODIFICAR TAREA ===");
+        if (usuarioActual.getTareasAsignadas() == null) {
+            System.out.println("No hay tareas asignadas para modificar.");
+
+        } else {
+            System.out.println("Seleccione la tarea que desea modificar:");
+            for (int i = 0; i < usuarioActual.getTareasAsignadas().size(); i++) {
+                System.out.println((i + 1) + "." + usuarioActual.getTareasAsignadas().get(i).getNombreTarea());
+            }
+            int opcionTarea = validaciones.solicitarOpcionMenu("Opcion invalida", 1, usuarioActual.getTareasAsignadas().size()) - 1;
+            Tarea tareaSeleccionada = usuarioActual.getTareasAsignadas().get(opcionTarea);
+            System.out.println("Ingrese el nuevo nombre de la tarea: ");
+            String nuevoNombre = scanner.nextLine().trim();
+            tareaSeleccionada.setNombreTarea(nuevoNombre);
+            System.out.println("Tarea modificada exitosamente: " + tareaSeleccionada);
+
+        }*/
     }
 
     private void seleccionarTarea() {
@@ -335,7 +255,15 @@ public class menu {
          */
     }
 
-    private void filtrarTareasUsuario() {
+    private void filtrarTareas() {
+
+        Nodo cabezaTareas = usuarioActual.getTareasAsignadas();
+
+        if (cabezaTareas.getTarea() == null) {
+            System.out.println("No hay tareas para filtrar");
+            return;
+        }
+
         System.out.println("=== FILTRAR TAREAS ===");
         System.out.println("1. Filtrar por fecha");
         System.out.println("2. Filtrar por estado");
@@ -343,14 +271,47 @@ public class menu {
         int opcion = validaciones.solicitarOpcionMenu("OpciÃ³n invÃ¡lida", 1, 3);
         switch (opcion) {
             case 1:
-                filtrarTareasPorFecha();
+                filtrarTareasPorFecha(cabezaTareas);
                 break;
             case 2:
-                filtrarTareasPorEstado();
+                filtrarTareasPorEstado(cabezaTareas);
                 break;
             case 3:
                 System.out.println("Volviendo al menÃº principal...");
                 break;
         }
+    }
+
+    private void filtrarTareasPorFecha(Nodo cabezaTareas) {
+
+        System.out.println("=== FILTRAR TAREAS POR FECHA ===");
+
+        // Solicita las dos fechas para filtrar
+        System.out.println("Ingrese el rango de fechas con el cual desea filtrar (dd/MM/yyyy): ");
+        LocalDate fecha1 = validaciones.solicitarFecha();
+        LocalDate fecha2 = validaciones.solicitarFechaMayor("La fecha de fin debe ser posterior a la fecha de inicio.", fecha1);
+
+        Nodo resultadoFiltros = usuarioActual.filtrarPorFecha(fecha1, fecha2, cabezaTareas);
+        usuarioActual.listarConFiltros(resultadoFiltros);
+
+    }
+
+    private void filtrarTareasPorEstado(Nodo cabezaTareas) {
+
+        System.out.println("=== FILTRAR TAREAS POR ESTADO ===");
+
+        System.out.println("Seleccione uno de los estados de tarea por el cual desea filtrar, o cualquier otro número para volver atrás.");
+        System.out.println("1. Pendiente\n2.En progreso\n3.Finalizada");
+        System.out.println("Ingrese su opción: ");
+
+        int opcion = validaciones.solicitarEntero("Error de selección");
+
+        if (opcion > 3) {
+            filtrarTareas();
+        } else {
+            Nodo resultadoFiltros = usuarioActual.filtrarPorEstado(cabezaTareas, opcion);
+            usuarioActual.listarConFiltros(resultadoFiltros);
+        }
+
     }
 }

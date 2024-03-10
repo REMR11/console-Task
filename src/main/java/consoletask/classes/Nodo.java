@@ -14,6 +14,11 @@ public class Nodo {
     //puede cambiar la variable
     private Nodo siguiente;
 
+    public Nodo(Tarea tarea) {
+        this.tarea = tarea;
+        this.siguiente = null;
+    }
+
     public Nodo() {
         this.tarea = null;
         this.siguiente = null;

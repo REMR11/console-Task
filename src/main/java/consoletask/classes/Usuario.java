@@ -4,6 +4,7 @@
  */
 package consoletask.classes;
 
+import java.time.LocalDate;
 import java.util.List;
 
 /**
@@ -190,7 +191,6 @@ public class Usuario {
             System.out.println("Â¡Tarea creada exitosamente!");
             this.listar();
             this.tamanio++;
-            this.copiarLista(usuarioInverso);
         }
     }
 
@@ -232,8 +232,114 @@ public class Usuario {
             System.out.println("Â¡La tarea se elimino con exito!");
             // Disminuye el contador de tamaÃ±o de la lista.
             tamanio--;
-        }else{
-            System.out.println("No existe la tarea con el id: "+referencia);
+        } else {
+            System.out.println("No existe la tarea con el id: " + referencia);
         }
+    }
+
+    /**
+     * Método para filtrar tareas por fecha de fin
+     * @param fecha1 Primera fecha del rango a filtrar
+     * @param fecha2 Segunda fecha del rango a filtrar
+     * @param cabezaTareas Nodo cabeza de la lista original de tareas
+     * @return Una copia de la lista de tareas, vacía o con los resultados obtenidos
+     */
+    public Nodo filtrarPorFecha(LocalDate fecha1, LocalDate fecha2, Nodo cabezaTareas) {
+
+        Nodo copiaCabeza = new Nodo();
+
+        // Recorrido de lista de tareas
+        while (cabezaTareas != null) {
+
+            // Guardado local de fechaFin
+            LocalDate fechaFin = cabezaTareas.getTarea().getFechaFin();
+
+            // Comparación de fechaFin de tarea con fechas ingresadas para filtro
+            if (fechaFin.isAfter(fecha1) && fechaFin.isBefore(fecha2)) {
+
+                Tarea tareaEncontrada = cabezaTareas.getTarea();
+                // Duplicación de lista
+                // Si copia está vacía, guarda tarea encontrado al final
+                if (copiaCabeza.getTarea() == null) {
+                    copiaCabeza.setTarea(tareaEncontrada);
+                } else {
+                    // Sino, va recorriendo hasta encontrar el último nodo y guardar la tarea encontrada
+                    Nodo aux = copiaCabeza;
+                    while (aux.getSiguiente() != null) {
+                        aux = aux.getSiguiente();
+                    }
+                    aux.setSiguiente(new Nodo(tareaEncontrada));
+                }
+                // Itera a la siguiente tarea
+                cabezaTareas = cabezaTareas.getSiguiente();
+            } else {
+                // Itera a a la siguiente tarea
+                cabezaTareas = cabezaTareas.getSiguiente();
+            }
+
+        }
+
+        return copiaCabeza;
+
+    }
+
+    /**
+     * Método para filtrar tareas por estado
+     * @param cabezaTareas Nodo cabeza de la lista original de tareas
+     * @param estado ID de Estado por cual se desea filtrar
+     * @return Una copia de la lista de tareas, vacía o con los resultados obtenidos
+     */
+    public Nodo filtrarPorEstado(Nodo cabezaTareas, int estado) {
+
+        Nodo copiaCabeza = new Nodo();
+
+        while (cabezaTareas != null) {
+            int estadoTarea = cabezaTareas.getTarea().getEstadoTarea();
+
+            if (estado == estadoTarea) {
+                Tarea tareaEncontrada = cabezaTareas.getTarea();
+
+                if (copiaCabeza.getTarea() == null) {
+                    copiaCabeza.setTarea(tareaEncontrada);
+                } else {
+                    // Sino, va recorriendo hasta encontrar el último nodo y guardar la tarea encontrada
+                    Nodo aux = copiaCabeza;
+                    while (aux.getSiguiente() != null) {
+                        aux = aux.getSiguiente();
+                    }
+                    aux.setSiguiente(new Nodo(tareaEncontrada));
+                }
+                // Itera a la siguiente tarea
+                cabezaTareas = cabezaTareas.getSiguiente();
+            } else {
+                // Itera a a la siguiente tarea
+                cabezaTareas = cabezaTareas.getSiguiente();
+            }
+
+        }
+
+        return copiaCabeza;
+
+    }
+
+    /**
+     * Método que imprime la lista filtrada de tareas
+     * @param cabezaFiltro Nodo cabeza de la lista filtrada
+     */
+    public void listarConFiltros(Nodo cabezaFiltro) {
+
+        Nodo aux = cabezaFiltro;
+
+        if (aux.getTarea() == null) {
+            System.out.println("No se encontraron tareas con los filtros proporcionados.");
+            return;
+        }
+
+        System.out.println("=== TAREAS ENCONTRADAS === ");
+        while (aux != null) {
+            System.out.print(aux.getTarea().toString() + "\n");
+            aux = aux.getSiguiente();
+        }
+
     }
 }

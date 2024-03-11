@@ -83,6 +83,9 @@ public class Tarea {
     @Override
     public String toString() {
         Validaciones validacion = new Validaciones();
-        return "{id: " + id + " nombreTarea= " + nombreTarea + ", fechaInicio= " + validacion.formatearFecha(fechaInicio) + ", fechaFin= " + validacion.formatearFecha(fechaFin) + ", estadoTarea= " + estadoTarea + ", porcentajeProgreso= " + porcentajeProgreso + '}';
+        
+        String arrEstado[] = {"Pendiente", "En progreso", "Finalizado"}; 
+        
+        return "{id: " + id + " nombreTarea= " + nombreTarea + ", fechaInicio= " + validacion.formatearFecha(fechaInicio) + ", fechaFin= " + validacion.formatearFecha(fechaFin) + ", estadoTarea= " + arrEstado[this.estadoTarea-1] + ", porcentajeProgreso= " + porcentajeProgreso + '}';
     }
 }

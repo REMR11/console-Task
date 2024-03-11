@@ -118,7 +118,7 @@ public class menu {
 
         System.out.println("\n=== ELIMINAR TAREA ===");
         if (usuarioActual.getTareasAsignadas().getTarea() == null) {
-            System.out.println("No hay tareas apara eliminar");
+            System.out.println("No hay tareas para eliminar");
         } else {
             usuarioActual.listar();
             System.out.println("Seleccione la tarea que desea eliminar (Ingrese el ID), u otro n√∫mero si desea cancelar:");
@@ -150,6 +150,7 @@ public class menu {
                 break;
             case 2:
                 System.out.println("\nIngrese el estado al cual desea modificar la tarea:");
+                System.out.println("1. Pendiente\n2. En progreso\n3. Finalizada");
                 int estado = validaciones.solicitarOpcionMenu("Estado inv·lido", 1, 3);
                 usuarioActual.modificarEstadoTarea(tarea, estado);
                 break;
@@ -216,6 +217,7 @@ public class menu {
         switch (opcion) {
             case 1:
                 System.out.println("\nIngrese el estado al cual desea modificar la tarea:");
+                System.out.println("1. Pendiente\n2. En progreso\n3. Finalizada");
                 int estado = validaciones.solicitarOpcionMenu("Estado inv·lido", 1, 3);
                 usuarioActual.modificarEstadoTarea(tarea, estado);
                 break;

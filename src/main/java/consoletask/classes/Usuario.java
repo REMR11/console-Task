@@ -261,6 +261,7 @@ public class Usuario {
     public void modificarFechaFinTarea(Nodo tarea, LocalDate nuevaFecha) {
 
         tarea.getTarea().setFechaFin(nuevaFecha);
+        System.out.println("¡Tarea modificada exitosamente!");
 
     }
 
@@ -271,11 +272,24 @@ public class Usuario {
      * @param porcentaje Nuevo porcentaje para modificar
      */
     public void modificarPorcentajeTarea(Nodo tarea, int porcentaje) {
+
+        // Valida si el porcentaje ingresado es menor al actual
+        if (porcentaje < tarea.getTarea().getPorcentajeProgreso()) {
+            System.out.println("No es posible disminuir el porcentaje de avance.");
+            return;
+        }
+
+        if (porcentaje > 0) {
+            tarea.getTarea().setEstadoTarea(EstadoTareaEnum.EN_PROGRESO.getId());
+        }
+
         tarea.getTarea().setPorcentajeProgreso(porcentaje);
         // Valida si se ingresó porcentaje 100, para también establecer la tarea como finalizada
         if (porcentaje == 100) {
             tarea.getTarea().setEstadoTarea(EstadoTareaEnum.FINALIZADA.getId());
         }
+        System.out.println("¡Tarea modificada exitosamente!");
+
     }
 
     /**
@@ -290,6 +304,8 @@ public class Usuario {
         if (estado == EstadoTareaEnum.FINALIZADA.getId()) {
             tarea.getTarea().setPorcentajeProgreso(100);
         }
+        System.out.println("¡Tarea modificada exitosamente!");
+
     }
 
     /**

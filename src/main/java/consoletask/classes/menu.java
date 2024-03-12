@@ -12,7 +12,7 @@ public class menu {
 
     private Usuario usuarioActual; // Usuario actual que accede a menu
     private Usuario usuarioInverso; //Usuario inverso para ciertas operaciones
-    private Scanner scanner; 
+    private Scanner scanner;
     private Validaciones validaciones; // Clase de utilidades para validaciones
 
 //Constructor de clase menu 
@@ -91,6 +91,7 @@ public class menu {
         }
     }
 //Metodo para crear una tarea
+
     private void crearTarea() {
         System.out.println("\n=== CREAR TAREA===");
         System.out.println("Ingrese el nombre de la tarea: "); //Solicitar nombre de la tarea
@@ -122,6 +123,7 @@ public class menu {
         usuarioActual.agregarAlFinal(nuevaTarea, usuarioInverso);
     }
 //Metodo para Eliminar una tarea
+
     private void eliminarTarea() {
 
         System.out.println("\n=== ELIMINAR TAREA ===");
@@ -147,6 +149,7 @@ public class menu {
         }
     }
 //Metodo para modificar una tarea Administrador
+
     private void menuAdminModificarTarea(Nodo tarea) {
 //Mostrar las opciones disponibles para modificar la tarea
         System.out.println("1. Fecha de finalizaci�n\n2. Estado\n3. Porcentaje de progreso");
@@ -154,27 +157,25 @@ public class menu {
         //Segun la opcion elegida por el usuario ejecutar una accion
         switch (opcion) {
             case 1:
-            //Modificar la fecha de finalizacion de la tarea
+                //Modificar la fecha de finalizacion de la tarea
                 System.out.println("\nIngrese la fecha de finalizaci�n la cual desea modificar la tarea:");
                 LocalDate fecha = validaciones.solicitarFechaMayor("Hubo un error al obtener la fecha.", LocalDate.now());
                 usuarioActual.modificarFechaFinTarea(tarea, fecha);
                 break;
             case 2:
-            //Modificar el estado de la tarea
+                //Modificar el estado de la tarea
                 System.out.println("\nIngrese el estado al cual desea modificar la tarea:");
                 System.out.println("1. Pendiente\n2. En progreso\n3. Finalizada");
                 int estado = validaciones.solicitarOpcionMenu("Estado inv�lido", 1, 3);
                 usuarioActual.modificarEstadoTarea(tarea, estado);
                 break;
             case 3:
-            //Modificar el porcentaje de progreso de la tarea
+                //Modificar el porcentaje de progreso de la tarea
                 System.out.println("\nIngrese el porcentaje de progreso al cual desea modificar la tarea:");
                 int porcentaje = validaciones.solicitarOpcionMenu("Porcentaje de progreso inv�lido", 0, 100);
                 usuarioActual.modificarPorcentajeTarea(tarea, porcentaje);
                 break;
         }
-        System.out.println("�Tarea modificada exitosamente!");
-
     }
 
     /* M�TODOS PARA USUARIO */
@@ -197,6 +198,7 @@ public class menu {
         } while (opcion != 2);  //continua mostrando el menu de usuario hasta que se elija cerrar sesion 
     }
 //Metodo mostrar menu de tareas de Usuario
+
     private void mostrarMenuGestionTareasUsuario() {
         int opcion;
         do {
@@ -221,6 +223,7 @@ public class menu {
         } while (opcion != 3);
     }
 //Metodo modificar una tarea Usuario
+
     private void menuUsuarioModificarTarea(Nodo tarea) {
 //Muestra las opciones disponibles
         System.out.println("1. Estado\n2.Porcentaje de progreso");
@@ -229,20 +232,19 @@ public class menu {
         int opcion = validaciones.solicitarOpcionMenu("Ingrese una opci�n v�lida", 1, 2);
         switch (opcion) {
             case 1:
-            //Modificar el estado de la tarea
+                //Modificar el estado de la tarea
                 System.out.println("\nIngrese el estado al cual desea modificar la tarea:");
                 System.out.println("1. Pendiente\n2. En progreso\n3. Finalizada");
                 int estado = validaciones.solicitarOpcionMenu("Estado inv�lido", 1, 3);
                 usuarioActual.modificarEstadoTarea(tarea, estado);
                 break;
             case 2:
-            //Modificar el porcentaje de progreso de la tarea
+                //Modificar el porcentaje de progreso de la tarea
                 System.out.println("\nIngrese el porcentaje de progreso al cual desea modificar la tarea:");
                 int porcentaje = validaciones.solicitarOpcionMenu("Porcentaje de progreso inv�lido", 0, 100);
                 usuarioActual.modificarPorcentajeTarea(tarea, porcentaje);
                 break;
         }
-        System.out.println("�Tarea modificada exitosamente!");
 
     }
 
@@ -284,6 +286,7 @@ public class menu {
         }
     }
 //Metodo para filtrar tareas
+
     private void filtrarTareas() {
 //obtener la lista de tareas asignadas al usuario
         Nodo cabezaTareas = usuarioActual.getTareasAsignadas();
@@ -312,6 +315,7 @@ public class menu {
         }
     }
 //metodo para filtrar tareas por fecha
+
     private void filtrarTareasPorFecha(Nodo cabezaTareas) {
 
         System.out.println("\n=== FILTRAR TAREAS POR FECHA ===");
@@ -319,16 +323,17 @@ public class menu {
         // Solicita las dos fechas para filtrar
         System.out.println("Ingrese el rango de fechas con el cual desea filtrar (dd/MM/yyyy): ");
         //solicitar la primera fecha
-        LocalDate fecha1 = validaciones.solicitarFecha(); 
+        LocalDate fecha1 = validaciones.solicitarFecha();
         //solicitar la segunda fecha 
         LocalDate fecha2 = validaciones.solicitarFechaMayor("La fecha de fin debe ser posterior a la fecha de inicio.", fecha1);
 //filtrar las tareas dentro del rango de fechas especificado
         Nodo resultadoFiltros = usuarioActual.filtrarPorFecha(fecha1, fecha2, cabezaTareas);
-      //mostar las tareas filtradas al usuario
+        //mostar las tareas filtradas al usuario
         usuarioActual.listarConFiltros(resultadoFiltros);
 
     }
 //metodo para filtrar tareas por estado
+
     private void filtrarTareasPorEstado(Nodo cabezaTareas) {
 
         System.out.println("\n=== FILTRAR TAREAS POR ESTADO ===");
@@ -343,9 +348,9 @@ public class menu {
             filtrarTareas();//volver al menu de filtrado de tareas si se ingresa una opcion invalida
         } else {
             //filtrar las tareas segun el estado seleccionado por el usuario
-        Nodo resultadoFiltros = usuarioActual.filtrarPorEstado(cabezaTareas, opcion);
-      //mostrar las tareas filtradas por usuario     
-        usuarioActual.listarConFiltros(resultadoFiltros);
+            Nodo resultadoFiltros = usuarioActual.filtrarPorEstado(cabezaTareas, opcion);
+            //mostrar las tareas filtradas por usuario     
+            usuarioActual.listarConFiltros(resultadoFiltros);
         }
 
     }

@@ -32,7 +32,7 @@ public class menu {
         }
     }
 
-    /* M�TODOS PARA ADMIN */
+    /* MÉTODOS PARA ADMIN */
     //Metodo para mostrar menu de administrador
     private void mostrarMenuAdmin() {
 
@@ -42,10 +42,11 @@ public class menu {
             System.out.println("\n===MENU DE ADMINISTRADOR ===");
             System.out.println("1. Gestionar tareas");
             System.out.println("2. Crear tarea");
-            System.out.println("3. Salir.");
+            System.out.println("3. Listar tareas.");
+            System.out.println("4. Salir.");
             System.out.print("Ingrese su opcion: ");
             //solicitar al que se ingrese una opcion y asegurarse de que sea valida
-            opcion = validaciones.solicitarOpcionMenu("Opcion invalida", 1, 3);
+            opcion = validaciones.solicitarOpcionMenu("Opcion invalida", 1, 4);
             switch (opcion) {
                 case 1:
                     mostrarMenuGestionTareasAdmin();  //mostrar el menu de gestion de tareas
@@ -54,13 +55,15 @@ public class menu {
                 case 2:
                     crearTarea(); // metodo para crear una tarea
                     break;
-
+                
                 case 3:
+                    usuarioActual.listar();//Listamos las tareas
+                    break;
+                case 4:
                     System.out.println("Saliendo..."); //mensaje de salida
                     break;
-
             }
-        } while (opcion != 3); //continuar el ciclo hasta que se elija salir del menu
+        } while (opcion != 4); //continuar el ciclo hasta que se elija salir del menu
     }
 //Metodo para mostrar el menu de gestion de tareas para el administrador
 
@@ -178,24 +181,28 @@ public class menu {
         }
     }
 
-    /* M�TODOS PARA USUARIO */
+    /* MÉTODOS PARA USUARIO */
     private void mostrarMenuUsuario() {
         int opcion;
         do {
             System.out.println("\n=== MENU DE USUARIO ===");
             System.out.println("1. Gestionar tareas");
-            System.out.println("2. Cerrar sesion");
+            System.out.println("2. Listar tareas");
+            System.out.println("3. Cerrar sesion");
             System.out.print("Ingrese su opcion: ");
-            opcion = validaciones.solicitarOpcionMenu("Opcion invalida", 1, 2);
+            opcion = validaciones.solicitarOpcionMenu("Opcion invalida", 1, 3);
             switch (opcion) {
                 case 1:
                     mostrarMenuGestionTareasUsuario(); //Llamada al metedo para mostar el menu de gestion de tareas
                     break;
                 case 2:
+                    usuarioActual.listar();//Listamos las tareas
+                    break;
+                case 3:
                     System.out.println("Cerrando sesion..."); // Indica el cierre de sesion
                     break;
             }
-        } while (opcion != 2);  //continua mostrando el menu de usuario hasta que se elija cerrar sesion 
+        } while (opcion != 3);  //continua mostrando el menu de usuario hasta que se elija cerrar sesion 
     }
 //Metodo mostrar menu de tareas de Usuario
 

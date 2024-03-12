@@ -74,11 +74,11 @@ public class Usuario {
      *
      * @param referencia ID de la tarea a buscar
      * @return Un mapa clave-valor String-object para devolver tanto la bandera
-     * de éxito, así como el nodo encontrado
+     * de ï¿½xito, asï¿½ como el nodo encontrado
      */
     public Map<String, Object> buscar(int referencia) {
 
-        // Inicialización del mapa de retorno
+        // Inicializaciï¿½n del mapa de retorno
         Map<String, Object> returnMap = new HashMap<>();
 
         // Crea una copia de la lista.
@@ -154,6 +154,7 @@ public class Usuario {
                 // Incrementa el contador de la posiÃ³n.
                 i++;
             }
+            System.out.println("NULL");
         } else {
             System.out.println("No hay tareas creadas");
         }
@@ -163,7 +164,7 @@ public class Usuario {
      * MÃ©todo para agregar una Tarea al final de la lista
      *
      * @param tarea Tarea a agregar
-     * @param usuarioInverso Usuario al que se le asignará la tarea
+     * @param usuarioInverso Usuario al que se le asignarï¿½ la tarea
      */
     public void agregarAlFinal(Tarea tarea, Usuario usuarioInverso) {
         // Define un nuevo nodo.
@@ -261,7 +262,7 @@ public class Usuario {
     public void modificarFechaFinTarea(Nodo tarea, LocalDate nuevaFecha) {
 
         tarea.getTarea().setFechaFin(nuevaFecha);
-        System.out.println("¡Tarea modificada exitosamente!");
+        System.out.println("ï¿½Tarea modificada exitosamente!");
 
     }
 
@@ -284,11 +285,11 @@ public class Usuario {
         }
 
         tarea.getTarea().setPorcentajeProgreso(porcentaje);
-        // Valida si se ingresó porcentaje 100, para también establecer la tarea como finalizada
+        // Valida si se ingresï¿½ porcentaje 100, para tambiï¿½n establecer la tarea como finalizada
         if (porcentaje == 100) {
             tarea.getTarea().setEstadoTarea(EstadoTareaEnum.FINALIZADA.getId());
         }
-        System.out.println("¡Tarea modificada exitosamente!");
+        System.out.println("ï¿½Tarea modificada exitosamente!");
 
     }
 
@@ -300,21 +301,21 @@ public class Usuario {
      */
     public void modificarEstadoTarea(Nodo tarea, int estado) {
         tarea.getTarea().setEstadoTarea(estado);
-        // Valida si el estado que se ingresó es FINALIZADA, para también establecer el porcentaje al 100
+        // Valida si el estado que se ingresï¿½ es FINALIZADA, para tambiï¿½n establecer el porcentaje al 100
         if (estado == EstadoTareaEnum.FINALIZADA.getId()) {
             tarea.getTarea().setPorcentajeProgreso(100);
         }
-        System.out.println("¡Tarea modificada exitosamente!");
+        System.out.println("ï¿½Tarea modificada exitosamente!");
 
     }
 
     /**
-     * Método para filtrar tareas por fecha de fin
+     * Mï¿½todo para filtrar tareas por fecha de fin
      *
      * @param fecha1 Primera fecha del rango a filtrar
      * @param fecha2 Segunda fecha del rango a filtrar
      * @param cabezaTareas Nodo cabeza de la lista original de tareas
-     * @return Una copia de la lista de tareas, vacía o con los resultados
+     * @return Una copia de la lista de tareas, vacï¿½a o con los resultados
      * obtenidos
      */
     public Nodo filtrarPorFecha(LocalDate fecha1, LocalDate fecha2, Nodo cabezaTareas) {
@@ -328,16 +329,16 @@ public class Usuario {
             // Guardado local de fechaFin
             LocalDate fechaFin = cabezaTareas.getTarea().getFechaFin();
 
-            // Comparación de fechaFin de tarea con fechas ingresadas para filtro
+            // Comparaciï¿½n de fechaFin de tarea con fechas ingresadas para filtro
             if (validaciones.filtrarPorFechas(fechaFin, fecha1, fecha2)) {
 
                 Tarea tareaEncontrada = cabezaTareas.getTarea();
-                // Duplicación de lista
-                // Si copia está vacía, guarda tarea encontrado al final
+                // Duplicaciï¿½n de lista
+                // Si copia estï¿½ vacï¿½a, guarda tarea encontrado al final
                 if (copiaCabeza.getTarea() == null) {
                     copiaCabeza.setTarea(tareaEncontrada);
                 } else {
-                    // Sino, va recorriendo hasta encontrar el último nodo y guardar la tarea encontrada
+                    // Sino, va recorriendo hasta encontrar el ï¿½ltimo nodo y guardar la tarea encontrada
                     Nodo aux = copiaCabeza;
                     while (aux.getSiguiente() != null) {
                         aux = aux.getSiguiente();
@@ -358,11 +359,11 @@ public class Usuario {
     }
 
     /**
-     * Método para filtrar tareas por estado
+     * Mï¿½todo para filtrar tareas por estado
      *
      * @param cabezaTareas Nodo cabeza de la lista original de tareas
      * @param estado ID de Estado por cual se desea filtrar
-     * @return Una copia de la lista de tareas, vacía o con los resultados
+     * @return Una copia de la lista de tareas, vacï¿½a o con los resultados
      * obtenidos
      */
     public Nodo filtrarPorEstado(Nodo cabezaTareas, int estado) {
@@ -378,7 +379,7 @@ public class Usuario {
                 if (copiaCabeza.getTarea() == null) {
                     copiaCabeza.setTarea(tareaEncontrada);
                 } else {
-                    // Sino, va recorriendo hasta encontrar el último nodo y guardar la tarea encontrada
+                    // Sino, va recorriendo hasta encontrar el ï¿½ltimo nodo y guardar la tarea encontrada
                     Nodo aux = copiaCabeza;
                     while (aux.getSiguiente() != null) {
                         aux = aux.getSiguiente();
@@ -399,7 +400,7 @@ public class Usuario {
     }
 
     /**
-     * Método que imprime la lista filtrada de tareas
+     * Mï¿½todo que imprime la lista filtrada de tareas
      *
      * @param cabezaFiltro Nodo cabeza de la lista filtrada
      */

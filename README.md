@@ -1,6 +1,13 @@
 # <div align="center">Console-Task 📇<div>
 ## <div align="center">Proyecto estudiantil de la Universidad Francisco Gavidia. El Salvador - Año 2024</div>
 
+### indice
+  - [tecnologias-usadas](#tecnologias-usadas)
+  - [menu-de-administradores](#menú-de-administradores)
+  - [menu-de-usuarios](#menú-de-usuarios)
+
+
+---
 ### Tecnologias usadas:
 * **Java**
 
